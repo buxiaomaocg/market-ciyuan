@@ -1,0 +1,18 @@
+node_modules/
+unpackage/
+.hbuilderx/
+.DS_Store
+*.log
+
+# 构建产物
+dist/
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+Thumbs.db
+*.suo
+
+# 日志
+npm-debug.log*
+yarn-error.log*

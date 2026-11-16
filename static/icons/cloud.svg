@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="110" viewBox="0 0 200 110">
+  <!-- 云：几块同心圆 + 圆角底座，全部同色填充，拼出连续轮廓 -->
+  <g fill="#ffffff">
+    <ellipse cx="58" cy="72" rx="42" ry="33"/>
+    <ellipse cx="108" cy="55" rx="48" ry="43"/>
+    <ellipse cx="152" cy="74" rx="36" ry="30"/>
+    <rect x="18" y="72" width="164" height="32" rx="16"/>
+  </g>
+</svg>

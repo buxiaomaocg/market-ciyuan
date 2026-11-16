@@ -1,0 +1,134 @@
+<script setup lang="uts">
+	// #ifdef APP-ANDROID || APP-HARMONY
+	let firstBackTime = 0
+	// #endif
+
+	onLaunch(() => {
+		console.log('App Launch')
+	})
+
+	onAppShow(() => {
+		console.log('App Show')
+	})
+
+	onAppHide(() => {
+		console.log('App Hide')
+	})
+
+	// #ifdef APP-ANDROID || APP-HARMONY
+	onLastPageBackPress(() => {
+		console.log('App LastPageBackPress')
+		if (firstBackTime == 0) {
+			uni.showToast({
+				title: '再按一次退出应用',
+				position: 'bottom',
+			})
+			firstBackTime = Date.now()
+			setTimeout(() => {
+				firstBackTime = 0
+			}, 2000)
+		} else if (Date.now() - firstBackTime < 2000) {
+			firstBackTime = Date.now()
+			uni.exit()
+		}
+	})
+
+	onExit(() => {
+		console.log('App Exit')
+	})
+	// #endif
+</script>
+
+<style>
+/* 设计系统：颜色变量 + .glass-card / .resp-grid / .hide-mobile 等全局类。
+   原来放在 uni.scss 里，但项目里所有页面的 <style> 都没写 lang="scss"，
+   uni.scss 只会注入 SCSS 样式块，所以这些类一直没生效；这里用纯 CSS 文件全局引入。 */
+@import './common/css/design-system.css';
+
+/* ===== 全局基础 ===== */
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100vh;
+}
+
+/* ===== 全局排版：日系圆体 =====
+   标题：Zen Maru Gothic（Google Fonts，加载失败回落到系统圆体）
+   正文：系统里的圆体优先——macOS 的 Yuanti SC、Windows 的幼圆，
+        再退到苹方/微软雅黑，保证任何机器都不会掉成宋体 */
+page {
+	font-family: "Zen Maru Gothic", "Yuanti SC", "幼圆", "YouYuan",
+		"Hiragino Maru Gothic ProN", "PingFang SC", "Microsoft YaHei", sans-serif;
+	color: #334866;
+	/* 白色柔光：既保留梦幻感，又把字从插画背景上"托"起来 */
+	text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.9),
+		0 0 3px rgba(255, 255, 255, 0.8);
+	letter-spacing: 0.2px;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* 文字组件默认继承全局色与柔光 */
+uni-text {
+	color: inherit;
+	text-shadow: inherit;
+	letter-spacing: inherit;
+}
+
+/* ===== 页面背景 ===== */
+page {
+	/* 默认使用干净的浅灰背景（桌面端） */
+	background: #f5f6fa;
+	min-height: 100vh;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* 移动端使用更柔和的微渐变 */
+/* #ifdef APP-PLUS */
+page {
+	background: linear-gradient(170deg, #f5f6fa 0%, #f0eef8 50%, #f5f0f6 100%);
+}
+/* #endif */
+
+/* #ifdef H5 */
+@media (max-width: 767px) {
+	page {
+		background: linear-gradient(170deg, #f5f6fa 0%, #f0eef8 50%, #f5f0f6 100%);
+	}
+}
+/* #endif */
+
+/* 移除彩虹光斑伪元素，改为极淡的装饰 */
+page::before {
+	content: '';
+	position: fixed;
+	top: -150px;
+	right: -100px;
+	width: 420px;
+	height: 420px;
+	background: radial-gradient(circle, rgba(124, 92, 252, 0.04) 0%, transparent 70%);
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 0;
+}
+
+page::after {
+	content: '';
+	position: fixed;
+	bottom: -150px;
+	left: -100px;
+	width: 380px;
+	height: 380px;
+	background: radial-gradient(circle, rgba(79, 172, 254, 0.03) 0%, transparent 70%);
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 0;
+}
+</style>
+<style>
+	.uni-row { flex-direction: row; }
+	.uni-column { flex-direction: column; }
+</style>
